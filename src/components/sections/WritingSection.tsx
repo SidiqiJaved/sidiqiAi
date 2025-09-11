@@ -5,7 +5,7 @@ export function WritingSection() {
   return (
     <section 
       id="writing" 
-      className="py-16 sm:py-20 px-4 sm:px-6 bg-gray-50"
+      className="py-16 sm:py-20 px-4 sm:px-6 bg-gray-50 scroll-mt-20"
       aria-label="Blog posts and insights"
     >
       <div className="max-w-4xl mx-auto">

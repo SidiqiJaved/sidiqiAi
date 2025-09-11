@@ -16,21 +16,10 @@ export function HeroSection() {
   return (
     <section 
       id="hero"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-20"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 pt-32 lg:pt-36"
       aria-label="Hero section - Introduction"
     >
       <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
-        {/* Logo/Brand */}
-        <header className="flex items-center justify-center space-x-4 mb-8 sm:mb-12">
-          <div 
-            className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center"
-            role="img"
-            aria-label="Javed Sidiqi Logo"
-          >
-            <span className="text-white font-bold text-xl">JS</span>
-          </div>
-        </header>
-
         {/* Main Headline */}
         <hgroup className="space-y-4 sm:space-y-6">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 leading-tight px-2">

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Header } from "./components/Header";
 import { HeroSection } from "./components/sections/HeroSection";
 import { AboutSection } from "./components/sections/AboutSection";
 import { ProjectsSection } from "./components/sections/ProjectsSection";
@@ -66,6 +67,8 @@ export default function App() {
         >
           Skip to main content
         </a>
+        
+        <Header />
         
         <main id="main-content" role="main">
           <HeroSection />

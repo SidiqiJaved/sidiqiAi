@@ -5,7 +5,7 @@ export function ProjectsSection() {
   return (
     <section 
       id="projects" 
-      className="py-16 sm:py-20 px-4 sm:px-6"
+      className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20"
       aria-label="Portfolio projects showcase"
     >
       <div className="max-w-4xl mx-auto">
