@@ -1,0 +1,36 @@
+/* Debug CSS to ensure Tailwind classes are generated */
+/* This file helps with production build CSS generation */
+
+.header-debug {
+  /* Force Tailwind to include these classes in production */
+  @apply hidden lg:flex lg:block;
+  @apply flex items-center justify-between;
+  @apply space-x-1 space-x-3;
+  @apply px-4 py-2 rounded-md;
+  @apply text-sm font-medium transition-all;
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+  @apply text-gray-700 hover:bg-gray-100;
+  @apply fixed top-0 left-0 right-0 z-50;
+  @apply max-w-7xl mx-auto;
+  @apply w-10 h-10 w-12 h-12;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+/* Ensure responsive breakpoints work */
+@media (min-width: 1024px) {
+  .lg-force-flex {
+    display: flex !important;
+  }
+  .lg-force-hidden {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .mobile-force-hidden {
+    display: none !important;
+  }
+  .mobile-force-block {
+    display: block !important;
+  }
+}
