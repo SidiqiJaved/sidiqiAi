@@ -8,7 +8,7 @@ export const projects: Project[] = [
     title: "Franchise Solution (Restaurants)",
     description: "A digital platform for operations, training, and ordering.",
     link: "#",
-    tags: []
+    tags: ["React", "Node.js", "PostgreSQL"]
   },
   {
     id: "resume-builder",
@@ -16,7 +16,7 @@ export const projects: Project[] = [
     title: "Resume Builder (Universities)",
     description: "An AI-powered CV tool for students and schools.",
     link: "#",
-    tags: []
+    tags: ["Next.js", "OpenAI", "Tailwind CSS"]
   },
   {
     id: "clinic-modernization",
@@ -24,7 +24,7 @@ export const projects: Project[] = [
     title: "Local Clinic Modernization (Healthcare)",
     description: "Helping small clinics modernize with digital booking, billing, and AI-enabled tools.",
     link: "#",
-    tags: []
+    tags: ["TypeScript", "Stripe", "Firebase"]
   }
 ];
 

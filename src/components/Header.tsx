@@ -3,6 +3,13 @@ import { Button } from "./ui/button";
 import { SidiqiLogo } from "./SidiqiLogo";
 import { Menu, X } from "lucide-react";
 import { cn } from "./ui/utils";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "./ui/navigation-menu";
 
 const navLinks = [
   { href: "#home", label: "Home", section: "hero" },
@@ -17,7 +24,7 @@ export function Header() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll effects and active section tracking
+  // Handle scroll effects
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -106,26 +113,32 @@ export function Header() {
             </button>
           </div>
 
-          {/* Desktop Navigation - Force display on desktop */}
-          <nav className="hidden lg:flex items-center space-x-1 flex-1 justify-center" aria-label="Main navigation">
-            {navLinks.map((link) => (
-              <button
-                key={link.section}
-                onClick={() => handleNavClick(link.section)}
-                className={cn(
-                  "px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                  activeSection === link.section
-                    ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                    : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                )}
-                aria-current={activeSection === link.section ? "page" : undefined}
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:block">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {navLinks.map((link) => (
+                  <NavigationMenuItem key={link.section}>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "cursor-pointer transition-all duration-200",
+                        activeSection === link.section
+                          ? "bg-blue-600 text-white hover:bg-blue-700"
+                          : "hover:bg-gray-100 hover:text-gray-900"
+                      )}
+                      onClick={() => handleNavClick(link.section)}
+                      aria-current={activeSection === link.section ? "page" : undefined}
+                    >
+                      {link.label}
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
 
-          {/* Mobile menu button - Only show on mobile */}
+          {/* Mobile menu button */}
           <div className="lg:hidden">
             <Button
               variant="ghost"
@@ -143,59 +156,60 @@ export function Header() {
               )}
             </Button>
           </div>
-
-          {/* Spacer for desktop layout balance */}
-          <div className="hidden lg:block flex-shrink-0 w-20"></div>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu - Only show on mobile */}
+      {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden">
-          <div className="fixed inset-0 z-50">
-            {/* Backdrop */}
-            <div 
-              className="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity"
-              onClick={() => setIsMenuOpen(false)}
-              aria-hidden="true"
-            />
-            
-            {/* Menu Panel */}
-            <div className="fixed top-0 right-0 h-full w-64 bg-white shadow-xl">
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                <span className="text-lg font-semibold text-gray-900">Menu</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-500 hover:bg-gray-100"
-                  aria-label="Close menu"
-                >
-                  <X className="w-5 h-5" aria-hidden="true" />
-                </Button>
-              </div>
-              
-              <nav className="p-4" aria-label="Mobile navigation">
-                <ul className="space-y-2">
-                  {navLinks.map((link) => (
-                    <li key={link.section}>
-                      <button
-                        onClick={() => handleNavClick(link.section)}
-                        className={cn(
-                          "w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                          activeSection === link.section
-                            ? "bg-blue-600 text-white"
-                            : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                        )}
-                        aria-current={activeSection === link.section ? "page" : undefined}
-                      >
-                        {link.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+        <div 
+          id="mobile-menu"
+          className="lg:hidden fixed inset-0 z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation menu"
+        >
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity"
+            onClick={() => setIsMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          {/* Menu Panel */}
+          <div className="fixed top-0 right-0 h-full w-64 bg-white shadow-xl">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <span className="text-lg font-semibold text-gray-900">Menu</span>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-500 hover:bg-gray-100"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5" aria-hidden="true" />
+              </Button>
             </div>
+            
+            <nav className="p-4" aria-label="Mobile navigation">
+              <ul className="space-y-2">
+                {navLinks.map((link) => (
+                  <li key={link.section}>
+                    <button
+                      onClick={() => handleNavClick(link.section)}
+                      className={cn(
+                        "w-full text-left px-4 py-3 rounded-md text-base font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+                        activeSection === link.section
+                          ? "bg-blue-600 text-white"
+                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      )}
+                      aria-current={activeSection === link.section ? "page" : undefined}
+                    >
+                      {link.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
       )}
