@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.sidiqi.ai/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow common non-content paths
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /api/
+Disallow: *.json$
+Disallow: *.xml$ (except sitemap.xml)
+
+# Allow important assets
+Allow: /assets/
+Allow: /images/
+Allow: /css/
+Allow: /js/
