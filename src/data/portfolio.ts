@@ -7,8 +7,7 @@ export const projects: Project[] = [
     icon: Building2,
     title: "Franchise Solution (Restaurants)",
     description: "A digital platform for operations, training, and ordering.",
-    link: "#",
-    tags: ["React", "Node.js", "PostgreSQL"]
+    link: "https://halal-munchies.netlify.app/",
   },
   {
     id: "resume-builder",
@@ -16,7 +15,6 @@ export const projects: Project[] = [
     title: "Resume Builder (Universities)",
     description: "An AI-powered CV tool for students and schools.",
     link: "#",
-    tags: ["Next.js", "OpenAI", "Tailwind CSS"]
   },
   {
     id: "clinic-modernization",
@@ -24,7 +22,6 @@ export const projects: Project[] = [
     title: "Local Clinic Modernization (Healthcare)",
     description: "Helping small clinics modernize with digital booking, billing, and AI-enabled tools.",
     link: "#",
-    tags: ["TypeScript", "Stripe", "Firebase"]
   }
 ];
 

@@ -23,6 +23,9 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)").matches : true
+  );
 
   // Handle scroll effects
   useEffect(() => {
@@ -50,6 +53,28 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleMediaChange = (event: MediaQueryListEvent) => {
+      setIsDesktop(event.matches);
+    };
+
+    setIsDesktop(mediaQuery.matches);
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleMediaChange);
+      return () => mediaQuery.removeEventListener("change", handleMediaChange);
+    }
+
+    if (typeof mediaQuery.addListener === "function") {
+      mediaQuery.addListener(handleMediaChange);
+      return () => mediaQuery.removeListener(handleMediaChange);
+    }
+
+    return undefined;
+  }, []);
+
   // Handle navigation clicks
   const handleNavClick = (section: string) => {
     const element = document.getElementById(section);
@@ -65,6 +90,15 @@ export function Header() {
     setActiveSection(section);
   };
 
+  useEffect(() => {
+    if (isDesktop) {
+      setIsMenuOpen(false);
+      if (typeof document !== "undefined") {
+        document.body.style.overflow = "unset";
+      }
+    }
+  }, [isDesktop]);
+
   // Close mobile menu on escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -73,7 +107,11 @@ export function Header() {
       }
     };
 
-    if (isMenuOpen) {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    if (isMenuOpen && !isDesktop) {
       document.addEventListener("keydown", handleEscape);
       // Prevent body scroll when menu is open
       document.body.style.overflow = "hidden";
@@ -85,8 +123,7 @@ export function Header() {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "unset";
     };
-  }, [isMenuOpen]);
-
+  }, [isMenuOpen, isDesktop]);
   return (
     <header
       className={cn(
@@ -113,57 +150,55 @@ export function Header() {
             </button>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:block">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {navLinks.map((link) => (
-                  <NavigationMenuItem key={link.section}>
-                    <NavigationMenuLink
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        "cursor-pointer transition-all duration-200",
-                        activeSection === link.section
-                          ? "bg-blue-600 text-white hover:bg-blue-700"
-                          : "hover:bg-gray-100 hover:text-gray-900"
-                      )}
-                      onClick={() => handleNavClick(link.section)}
-                      aria-current={activeSection === link.section ? "page" : undefined}
-                    >
-                      {link.label}
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="lg:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-menu"
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" aria-hidden="true" />
-              ) : (
-                <Menu className="w-6 h-6" aria-hidden="true" />
-              )}
-            </Button>
+          <div className="flex-1 flex justify-end">
+            {isDesktop ? (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {navLinks.map((link) => (
+                    <NavigationMenuItem key={link.section}>
+                      <NavigationMenuLink
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "cursor-pointer transition-all duration-200",
+                          activeSection === link.section
+                            ? "bg-blue-600 text-white hover:bg-blue-700"
+                            : "hover:bg-gray-100 hover:text-gray-900"
+                        )}
+                        onClick={() => handleNavClick(link.section)}
+                        aria-current={activeSection === link.section ? "page" : undefined}
+                      >
+                        {link.label}
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu"
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" aria-hidden="true" />
+                ) : (
+                  <Menu className="w-6 h-6" aria-hidden="true" />
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
+      {!isDesktop && isMenuOpen && (
         <div 
           id="mobile-menu"
-          className="lg:hidden fixed inset-0 z-50"
+          className="fixed inset-0 z-50"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation menu"
