@@ -152,8 +152,8 @@ export function Header() {
 
           <div className="flex-1 flex justify-end">
             {isDesktop ? (
-              <NavigationMenu>
-                <NavigationMenuList>
+              <NavigationMenu className="flex-none justify-end">
+                <NavigationMenuList className="flex-none justify-end">
                   {navLinks.map((link) => (
                     <NavigationMenuItem key={link.section}>
                       <NavigationMenuLink
